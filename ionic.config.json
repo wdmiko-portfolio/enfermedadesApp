@@ -1,0 +1,7 @@
+{
+  "name": "AppEnfermedades",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
