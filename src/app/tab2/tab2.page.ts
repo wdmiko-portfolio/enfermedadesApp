@@ -14,8 +14,8 @@ import { AsyncPipe, NgFor, NgIf } from '@angular/common';
   imports: [AsyncPipe,NgFor,NgIf,RouterLink,IonHeader, IonToolbar, IonTitle, IonContent, IonLabel, IonItem, IonList, IonGrid, IonCol, IonRow, IonSearchbar, IonButton, IonIcon, IonImg]
 })
 export class Tab2Page implements OnInit {
-  query: string = '';  // Variable para la búsqueda
-  registrosFiltrados$ = this.dbService.records$.pipe(  // Usar el Observable de registros y aplicar filtro
+  query: string = ''; 
+  registrosFiltrados$ = this.dbService.records$.pipe(  
     map(records =>
       records.filter((registro) =>
         registro.paciente.toLowerCase().includes(this.query.toLowerCase()) ||
@@ -31,12 +31,10 @@ export class Tab2Page implements OnInit {
   }
 
   ngOnInit(): void {
-    // El observable se manejará automáticamente en la plantilla usando el async pipe
   }
 
-  // Método para manejar la búsqueda en el IonSearchbar
   handleInput(event: Event) {
     const target = event.target as HTMLIonSearchbarElement;
-    this.query = target.value || '';  // Actualiza la variable de búsqueda
+    this.query = target.value || '';  
   }
 }
