@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Sign in
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Sign in</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container" style="padding: 5rem;">
+
+    <form  [formGroup]="loginForm" (ngSubmit)="onSubmmitLogin()">
+      <ion-input
+        type="email"
+        fill="outline"
+        label="Email"
+        formControlName="email"
+        labelPlacement="floating"
+        helperText="Enter a valid email"
+        errorText="Invalid email"
+        email
+      ></ion-input>
+    <br>
+      <ion-input
+        type="password"
+        fill="outline"
+        label="Password"
+        labelPlacement="floating"
+        helperText="Enter your password"
+        errorText="Invalid password"
+        formControlName="password"
+        password
+      ></ion-input>
+
+      <ion-button [disabled]="loginForm.invalid" type="submit" expand="block" style="margin-top: 25px;">Sign In</ion-button>
+  </form>
+  </div>
+
+</ion-content>

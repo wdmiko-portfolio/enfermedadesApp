@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Listado
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,50 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
+      <ion-title size="large">Listado</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-searchbar  [debounce]="1000" (ionInput)="handleInput($event)" animated="true" placeholder="Animated"></ion-searchbar>
+
+  <ion-list [inset]="true" style="padding-left: 0">
+    <ion-item *ngFor="let registro of registrosFiltrados$ | async" [button]="true" detail="false" style="--padding-start: 0px; --ion-safe-area-left: 0px;">
+      <ion-grid>
+        <ion-row>
+          <ion-col style="object-fit: contain;">
+            <ng-container *ngIf="registro.receta_imagen; else noImage">
+              <ion-img style="object-fit: contain;" [src]="registro.receta_imagen" alt="Receta imagen"></ion-img>
+            </ng-container>
+          </ion-col>
+          <ion-col size="7">
+            <ion-label>
+              <strong>Paciente: </strong><span><p>{{registro.paciente}}</p></span>
+            </ion-label>
+            <ion-label>
+              <strong>Malestar: </strong><span><p>{{registro.malestar}}</p></span>
+            </ion-label>
+            <ion-label>
+              <strong>Doctor: </strong><span><p>{{registro.doctor}}</p></span>
+            </ion-label>
+            <ion-label>
+              <strong>Tel: </strong> <span><p>{{registro.telefono}}</p></span>
+            </ion-label>
+            <ion-label>
+              <strong>Fecha: </strong> <span><p>{{registro.fecha}}</p></span>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-button shape="round" class="sticky-button" style="width: 3rem; height: 3rem;" [routerLink]="['/tabs/tab1']">
+    <ion-icon  slot="icon-only" name="add"></ion-icon>
+  </ion-button>
+
+  
+<ng-template #noImage>
+  <ion-img style="object-fit: contain;" [src]="'./assets/images/no_image.jpg'" alt="Receta imagen"></ion-img>
+</ng-template>
 </ion-content>
+

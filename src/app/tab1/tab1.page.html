@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      Registro
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,101 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">Registro</ion-title>
     </ion-toolbar>
   </ion-header>
+  <div style="margin: auto; padding: 20px;">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+      <ion-input
+        class="input-field"
+        type="date"
+        formControlName="fecha"
+        label="Fecha"
+        labelPlacement="stacked"
+        placeholder="Elige una fecha"
+        errorText="fecha invalida"
+      ></ion-input>
+  
+      <!-- Paciente -->
+      <ion-input
+        class="input-field"
+        type="text"
+        formControlName="paciente"
+        label="Paciente"
+        labelPlacement="stacked"
+        placeholder="Nombre del paciente"
+        errorText="formato invalido, ingrese solo letras"
+        [counter]="true" maxlength="150"
+      ></ion-input>
+  
+      <!-- Doctor -->
+      <ion-input
+        class="input-field"
+        formControlName="doctor"
+        label="Doctor"
+        labelPlacement="stacked"
+        placeholder="Nombre del Doctor"
+        errorText="formato invalido, ingrese solo letras"
+        [counter]="true" maxlength="150"
+      ></ion-input>
+  
+      <!-- Teléfono -->
+      <ion-input
+        class="input-field"
+        type="tel" 
+        formControlName="telefono"
+        label="Telefono"
+        labelPlacement="stacked"
+        placeholder="Numero telefonico"
+        maxlength="10"
+        [attr.disabled]
+        errorText="formato invalido, ingrese solo numeros o verifique que sean 10 digitos"
+      ></ion-input>
+  
+      <!-- Malestar -->
+      <ion-textarea
+        formControlName="malestar"
+        label="Malestar"
+        labelPlacement="stacked"
+        [counter]="true"
+        maxlength="1024"
+        placeholder="Explique brevemente su malestar"
+      ></ion-textarea>
+  
+      <!-- Capturar Receta -->
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <ion-button type="button" (click)="fileInput.click()" style="text-align: center;">
+          Capturar Receta
+        </ion-button>      
+        <input 
+          type="file" 
+          accept="image/*" 
+          #fileInput 
+          (change)="onFileSelected($event)" 
+          style="display: none;" 
+        />
+      </div>
+  
+      <!-- Vista previa de la imagen -->
+      <div *ngIf="imageSrc" style="text-align: center;">
+        <h3>Receta cargada:</h3>
+        <ion-img 
+          style="margin: auto; max-height: 100%; max-width: 65%; object-fit: contain; border-radius: 10px;"
+          [src]="imageSrc" 
+          alt="Vista previa de la imagen">
+        </ion-img>
+      </div>
+  
+      <!-- Botón de enviar -->
+      <ion-button style="text-align: center; margin-top: 25px;" expand="block" type="submit"  id="present-alert" [disabled]="form.invalid" style="margin-top: 20px;">
+        Enviar
+      </ion-button>
+    <app-alert [title]="'Enviar registro'" [message]="message" (actionConfirmed)="handleActionConfirmed($event)"></app-alert>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+    </form>
+</div>
+
+
+
 </ion-content>
