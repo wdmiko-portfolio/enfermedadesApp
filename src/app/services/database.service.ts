@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { CapacitorSQLite, SQLiteConnection, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 const DB_ENFERMEDADES = 'enfermedadesdb';
 
@@ -16,8 +16,8 @@ export interface User {
 export class DatabaseService {
   private db!: SQLiteDBConnection;
   private sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite);
-  private recordsSubject = new BehaviorSubject<any[]>([]);  // Cambiar de signal a BehaviorSubject
-  records$ = this.recordsSubject.asObservable();  // Exponer el Observable
+  private recordsSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  registros$: Observable<any[]> = this.recordsSubject.asObservable();  // Observable para suscribirse
 
   constructor() { }
 
@@ -108,12 +108,15 @@ export class DatabaseService {
     const query = 'SELECT * FROM records;';
     const result = await this.db.query(query);
     const records = result.values ?? [];
-    this.recordsSubject.next(records);  // Emitir los registros al BehaviorSubject
+    this.recordsSubject.next(records);
+
     this.getRecords();
   }
-  getRecords() {
-    return this.records$;  // Retornar el observable
+  // Método para obtener los registros como Observable
+  getRecords(): Observable<any[]> {
+    return this.recordsSubject.asObservable();
   }
+
   async resetDatabase() {
     try {
       await this.db.execute('DROP TABLE IF EXISTS users;');
@@ -144,6 +147,18 @@ export class DatabaseService {
     } else {
         console.log('Usuario no encontrado');
         return false
+    }
+  }
+
+  async deleteRecord(recordId: number): Promise<void> {
+    try {
+      const query = `DELETE FROM records WHERE id = ?;`; 
+      await this.db.run(query, [recordId]); 
+  
+      // Recargamos los registros y notificamos a los suscriptores
+      await this.loadRecords();
+    } catch (error) {
+      console.error('Error al eliminar el registro:', error);
     }
   }
 }

@@ -25,11 +25,13 @@ export class Tab3Page implements OnInit {
     this.users = await this.dbService.getUsers();
   }
 
-  async deleteDB(){
-    await this.dbService.resetDatabase();
-    this.users = await this.dbService.getUsers();
+  // async deleteDB(){
+  //   await this.dbService.resetDatabase();
+  //   this.users = await this.dbService.getUsers();
+  //   sessionStorage.removeItem('isLoggedIn'); 
+  // this.router.navigate(['/login']);
 
-  }
+  // }
 logOut(){
   sessionStorage.removeItem('isLoggedIn'); 
   this.router.navigate(['/login']);

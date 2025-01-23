@@ -24,7 +24,7 @@ export class Tab1Page implements OnInit {
       paciente: ['', [Validators.required, Validators.pattern('[a-zA-ZáéíóúÁÉÍÓÚñÑ]*'),Validators.maxLength(150)]],
       doctor: ['', [Validators.required, Validators.pattern('[a-zA-ZáéíóúÁÉÍÓÚñÑ]*'),Validators.maxLength(150)]],
       telefono: ['', [Validators.required, Validators.pattern('^[0-9]{10}$'),Validators.maxLength(10)]],
-      malestar: ['', [Validators.required, Validators.maxLength(1024)]],
+      malestar: ['', [Validators.required, Validators.maxLength(1024)]]
 
     });
     
@@ -61,9 +61,12 @@ ngOnInit(): void {
     if (isConfirmed) {        
       
       const {fecha, paciente, doctor, telefono, malestar } = this.form.value;
-      this.dbService.create(fecha,paciente, doctor, malestar, telefono, this.imageSrc!.toString()).then(() => {
+       // Si no hay imagen, asignamos NULL o un string vacío
+    const recetaImagen = this.imageSrc ? this.imageSrc.toString() :'';
+
+      this.dbService.create(fecha,paciente, doctor, malestar, telefono, recetaImagen).then(() => {
         this.form.reset();
-        this.imageSrc=''
+        this.imageSrc='';
       });
      await this.showToast('Registro creado con éxito');
 

@@ -13,14 +13,16 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar  [debounce]="1000" (ionInput)="handleInput($event)" animated="true" placeholder="Animated"></ion-searchbar>
+  <ion-searchbar  [debounce]="1000" (ionInput)="handleInput($event)" animated="true" placeholder="Ingresa busqueda"></ion-searchbar>
 
   <ion-list [inset]="true" style="padding-left: 0">
-    <ion-item *ngFor="let registro of registrosFiltrados$ | async" [button]="true" detail="false" style="--padding-start: 0px; --ion-safe-area-left: 0px;">
+    <ion-item-sliding  *ngFor="let registro of registros"  >
+
+    <ion-item [button]="true" detail="false" style="--padding-start: 0px; --ion-safe-area-left: 0px;">
       <ion-grid>
         <ion-row>
           <ion-col style="object-fit: contain;">
-            <ng-container *ngIf="registro.receta_imagen; else noImage">
+            <ng-container *ngIf="registro.receta_imagen!=''; else noImage">
               <ion-img style="object-fit: contain;" [src]="registro.receta_imagen" alt="Receta imagen"></ion-img>
             </ng-container>
           </ion-col>
@@ -44,6 +46,13 @@
         </ion-row>
       </ion-grid>
     </ion-item>
+    <ion-item-options>
+      <ion-item-option color="danger" (click)="deleteRecord(registro.id)">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
   </ion-list>
 
   <ion-button shape="round" class="sticky-button" style="width: 3rem; height: 3rem;" [routerLink]="['/tabs/tab1']">
